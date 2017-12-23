@@ -171,3 +171,26 @@
 			- A template reference variable is often a reference to a DOM element within a template. It can also be a reference to an Angular component or directive or a web component.
 			- You can refer to a template reference variable anywhere in the template.
 			- The scope of a reference variable is the entire template. Do not define the same variable name more than once in the same template. The runtime value will be unpredictable.
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+- Routing and Naviagation
+	- Set the <base href>
+		- The router uses the browser's history.pushState for navigation.
+		- You must add a <base href> element to the app's index.html for pushState routing to work.
+		- The browser uses the <base href> value to prefix relative URLs when referencing CSS files, scripts, and images.
+	- Importing from the router library
+		- The Router is in its own @angular/router package. It's not part of the Angular core. The router is an optional service because not all applications need routing and, depending on your requirements, you may need a different routing library.
+	- Define routes
+	- RouterOutlet
+		- The RouterOutlet is a directive from the router library that marks the spot in the template where the router should display the views for that outlet.
+		- The router adds the <router-outlet> element to the DOM and subsequently inserts the navigated view element immediately after the <router-outlet>.
+	- RouterLink binding
+	- RouterLinkActive binding
+		- The RouterLinkActive directive toggles css classes for active RouterLinks based on the current RouterState. This cascades down through each level of the route tree, so parent and child router links can be active at the same time. To override this behavior, you can bind to the [routerLinkActiveOptions] input binding with the { exact: true } expression. By using { exact: true }, a given RouterLink will only be active if its URL is an exact match to the current URL.
+	- Wildcard route
+		- A wildcard route has a path consisting of two asterisks. It matches every URL. The router will select this route if it can't match a route earlier in the configuration. A wildcard route can navigate to a custom "404 Not Found" component or redirect to an existing route.
+		- The router selects the route with a first match wins strategy. Wildcard routes are the least specific routes in the route configuration. Be sure it is the last route in the configuration.
+	- Redirecting routes (link: http://vsavkin.tumblr.com/post/146722301646/angular-router-empty-paths-componentless-routes)
+		- Add the default route somewhere above the wildcard route. It's just above the wildcard route in the following excerpt showing the complete appRoutes for this milestone.
+		- A redirect route requires a pathMatch property to tell the router how to match a URL to the path of a route. The router throws an error if you don't. 
