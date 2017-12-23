@@ -193,4 +193,18 @@
 		- The router selects the route with a first match wins strategy. Wildcard routes are the least specific routes in the route configuration. Be sure it is the last route in the configuration.
 	- Redirecting routes (link: http://vsavkin.tumblr.com/post/146722301646/angular-router-empty-paths-componentless-routes)
 		- Add the default route somewhere above the wildcard route. It's just above the wildcard route in the following excerpt showing the complete appRoutes for this milestone.
-		- A redirect route requires a pathMatch property to tell the router how to match a URL to the path of a route. The router throws an error if you don't. 
+		- A redirect route requires a pathMatch property to tell the router how to match a URL to the path of a route. The router throws an error if you don't.
+	- Route configuration
+		- Only call RouterModule.forRoot in the root AppRoutingModule (or the AppModule if that's where you register top level application routes). In any other module, you must call the RouterModule.forChild method to register additional routes.
+	- switchMap
+		- The switchMap operator also cancels previous in-flight requests. If the user re-navigates to this route with a new id while the HeroService is still retrieving the old id, switchMap discards that old request and returns the hero for the new id.
+	- Observable paramMap and component reuse (link: https://angular.io/guide/router#observable-parammap-and-component-reuse)
+		- In this example, you retrieve the route parameter map from an Observable. That implies that the route parameter map can change during the lifetime of this component.
+
+		They might. By default, the router re-uses a component instance when it re-navigates to the same component type without visiting a different component first. The route parameters could change each time.
+
+		Suppose a parent component navigation bar had "forward" and "back" buttons that scrolled through the list of heroes. Each click navigated imperatively to the HeroDetailComponent with the next or previous id.
+
+		You don't want the router to remove the current HeroDetailComponent instance from the DOM only to re-create it for the next id. That could be visibly jarring. Better to simply re-use the same component instance and update the parameter.
+
+		Unfortunately, ngOnInit is only called once per component instantiation. You need a way to detect when the route parameters change from within the same instance. The observable paramMap property handles that beautifully.
